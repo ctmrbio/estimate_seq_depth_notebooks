@@ -78,6 +78,11 @@ The metagenomes' functional potential was assessed using `TIGRFAMs`_, which is
 a collection of curated multiple sequence alignments in the form of hidden
 Markov models (HMMs). The HMMs accurately represent conserved protein families.
 We used `HMMER3`_'s ``hmmsearch`` to search our metagenome sequence replicates.
+This was done in two different ways: 
+1) by directly translating each read into six reading frames, and searching for
+matches to the TIGRFAM HMMs using the translated reads,
+2) by first assembling the metagenomic samples individually and running ``hmmsearch``
+on the assembled contigs.
 As the comparisons are made on protein level, the reads were first translated
 into all six reading frames using `BBmap`_'s ``translate6frames.sh`` with
 default settings.  Filtering and counting the TIGRFAM HMM matches was done
@@ -156,16 +161,26 @@ MetaPhlAn2 ...
 Centrifuge ...
 
 The functional profiles based on TIGRFAM annotation of reads seems to indicate
-that the functional profile reaches decent detection coverage (>75%) somewhere
-after 1M reads. It also shows some indications of overprediction at the 10M seq
-depths, based on the detection coverage being above that of the reference
-sequences. 
+that when mapping individual translated reads, the functional profile reaches
+decent detection coverage (>75%) somewhere after 1M reads. It also shows some
+indications of overprediction at the 10M sequencing depths, based on the
+observation that the average detection coverage being slightly higher that of
+the reference sequences for the 10M sequencing depth samples. The original
+hypothesis regarding mapping individual translated reads versus mapping open
+reading frames predicted from assembled metagenomes was that assembly and ORF
+prediction would yield better sensitivity for samples with lower sequencing
+depth (at least down to a lower limit).
 
 Performance-wise, taxonomic profiling is fairly light-weight and our
 experiments were all run a fairly modest Linux server: 2x10 core Intel Xeon
 E5-2630v4 CPUs @ 2.20 Ghz, with 64 GB RAM. Functional profiling, however, is
 much more demanding. It just barely completed in over two weeks when run on the
-lightweight Linux server. 
+lightweight Linux server.  Running TIGRFAM annotation using ``hmmsearch``
+directly on the annotated reads is a computationally heavy task, to such an
+extent that some samples actually failed to run to completion on our Linux
+server.  Assembling samples using ``MegaHIT`` proved highly feasable
+computationally. The time to assemble all samples was less than 6 hours total
+on our Linux server, using 40 cores.
 
 
 

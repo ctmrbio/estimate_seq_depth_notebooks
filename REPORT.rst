@@ -165,23 +165,35 @@ that when mapping individual translated reads, the functional profile reaches
 decent detection coverage (>75%) somewhere after 1M reads. It also shows some
 indications of overprediction at the 10M sequencing depths, based on the
 observation that the average detection coverage being slightly higher that of
-the reference sequences for the 10M sequencing depth samples. The original
+the reference sequences for the 10M sequencing depth samples. Our original
 hypothesis regarding mapping individual translated reads versus mapping open
 reading frames predicted from assembled metagenomes was that assembly and ORF
 prediction would yield better sensitivity for samples with lower sequencing
-depth (at least down to a lower limit).
+depth (at least down to a lower limit). Or test indicate that mapping reads
+back to assembled predicted ORFs generally provide lower absolute sum of
+differences to the normalized reference contig TIGRFAM counts than annotating
+reads directly. When annotating reads directly it appears the gain in increased
+sequencing depth diminishes as the average absolute sum of differences to 
+the reference counts appears asymptotically converge to around 0.3. In the case 
+of assembling contigs, calling ORFs, and mapping reads back, we see no
+indication of this difference leveling out (i.e. it might continue to improve
+beyond sequencing depths of 10M).
 
 Performance-wise, taxonomic profiling is fairly light-weight and our
 experiments were all run a fairly modest Linux server: 2x10 core Intel Xeon
-E5-2630v4 CPUs @ 2.20 Ghz, with 64 GB RAM. Functional profiling, however, is
-much more demanding. It just barely completed in over two weeks when run on the
-lightweight Linux server.  Running TIGRFAM annotation using ``hmmsearch``
-directly on the annotated reads is a computationally heavy task, to such an
-extent that some samples actually failed to run to completion on our Linux
-server.  Assembling samples using ``MegaHIT`` proved highly feasable
-computationally. The time to assemble all samples was less than 6 hours total
-on our Linux server, using 40 cores.
-
+E5-2630v4 CPUs @ 2.20 Ghz, with 64 GB RAM. Kaiju with the officially prepared 
+ProGenomes database runs without issues, even giving room for running multiple
+processes in parallel. MetaPhlAn2 is very lightweight, both on memory and CPU
+usage. Centrifuge requires a lot of memory to prepare a custom database, so 
+we used the database of archea, bacteria, and viruses that the authors' provide.
+Functional profiling, however, is much more demanding.  Running TIGRFAM
+annotation using ``hmmsearch`` directly on the annotated reads is a
+computationally heavy task, to such an extent that some samples actually failed
+to run to completion on our Linux server.  It just barely completed in over two
+weeks when run on the lightweight Linux server.  To assemble reads, perform ORF
+prediction, and annotate predicted ORFs with ``hmmsearch`` proved
+computationally feasible. The time to assemble all samples using ``MegaHIT``
+was less than 6 hours total on our Linux server, using 40 cores.
 
 
 

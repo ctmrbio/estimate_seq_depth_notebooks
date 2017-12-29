@@ -123,26 +123,26 @@ Functional profile
 ------------------
 Functional profiling data is hard to compare accurately.
 
-.. figure:: saliva_Mainrole_diffs.png
+.. figure:: tigrfam_reads/saliva_Mainrole_diffs.png
     :figwidth: 75%
     :alt: Average TIGRFAM mainrole differences for saliva samples.
 
     Average TIGRFAM mainrole differences for saliva samples.
 
-.. figure:: saliva_Subrole_diffs.png
+.. figure:: tigrfam_reads/saliva_Subrole_diffs.png
     :figwidth: 75%
     :alt: Average TIGRFAM subrole differences for saliva samples.
 
     Average TIGRFAM subrole differences for saliva samples.
 
-.. figure:: faeces_correlations.png
+.. figure:: tigrfam_reads/faeces_correlations.png
     :figwidth: 75%
     :alt: Correlation matrix for faeces samples
 
     Correlation matrix for faeces samples
 
 
-.. figure:: biopsy_boxplots.png
+.. figure:: tigrfam_reads/biopsy_boxplots.png
     :figwidth: 75%
     :alt: Boxplots of biopsy samples.
 

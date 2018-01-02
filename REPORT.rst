@@ -118,10 +118,64 @@ This produced 48 "samples" in total.
 Taxonomic profile
 -----------------
 
+The taxonomic profiles can be assess in multiple ways. First, we present
+taxonomic composition profiles using Krona plots.
+
+.. Here we'll put a few figures showing Krona plots.
+
+The proportion of unclassified reads shows a similar pattern between the
+methods. 
+
+.. figure:: taxonomy_plots/Centrifuge_unclassified_reads.png
+    :figwidth: 75%
+    :alt: Centrifuge unclassified reads.
+
+    Centrifuge performs well on all sample types except vagina.
+
+.. figure:: taxonomy_plots/Kaiju_unclassified_reads.png
+    :figwidth: 75%
+    :alt: Kaiju unclassified reads.
+
+    Kaiju performs well on all samples types except vagina.
+
+
+A basic PCA on the abundance profiles show separation between the sample types
+at all sequencing depths, except for MetaPhlAn2 that appears to produce
+profiles that are more similar, especially for faeces, saliva, and biopsy samples.
+
+.. figure:: taxonomy_plots/Centrifuge_PCA_species.png
+    :figwidth: 75%
+    :alt: PCA of Centrifuge species composition 
+
+    The taxonomic profiles are cleanly separated with Centrifuge, except for
+    biopsy and saliva sample types that are located close together on the PCA
+    plot.
+
+.. figure:: taxonomy_plots/Kaiju_PCA_species.png
+    :figwidth: 75%
+    :alt: PCA of Kaiju species composition 
+
+    The taxonomic profiles are cleanly separated with Kaiju.
+
+.. figure:: taxonomy_plots/MetaPhlAn2_PCA_species.png
+    :figwidth: 75%
+    :alt: PCA of MetaPhlAn2 species composition 
+
+    The taxonomic profiles are not cleanly separated across all sequencing
+    depths, based on the MetaPhlAn2 output.
+
+Pearson and Spearman correlations between samples are available as
+supplementary material.
+
 
 Functional profile
 ------------------
-Functional profiling data is hard to compare accurately.
+We begin with results from identifying TIGRFAMs directly from read data, and
+continue with results from mapping reads back to ORFs identified in assembled
+contigs.
+
+Identifying TIGRFAMs directly from read data
+............................................
 
 .. figure:: tigrfam_reads/saliva_Mainrole_diffs.png
     :figwidth: 75%
@@ -136,11 +190,10 @@ Functional profiling data is hard to compare accurately.
     Average TIGRFAM subrole differences for saliva samples.
 
 .. figure:: tigrfam_reads/faeces_correlations.png
-    :figwidth: 75%
+    :figwidth: 50%
     :alt: Correlation matrix for faeces samples
 
-    Correlation matrix for faeces samples
-
+    Correlation matrix for faeces samples.
 
 .. figure:: tigrfam_reads/biopsy_boxplots.png
     :figwidth: 75%
@@ -148,8 +201,26 @@ Functional profiling data is hard to compare accurately.
 
     Boxplots of biopsy sample type.
 
-Such text. Many figure. Much wow.
 
+Assembled and reads mapped back to ORFs
+.......................................
+The proportion of reads that can be mapped back to assembled contigs increase
+with increased sequencing depth. 
+
+.. figure:: tigrfam_assembled_orfs/Proportion_reads_mapped_to_ORFs.png
+    :figwidth: 75%
+    :alt: Proportion of reads mapped to ORFs.
+    
+    Proportion of reads mapped to ORFs.
+
+The low proportion of reads mapped to assembled ORFs gives low correlations between
+predicted and expected TIGRFAM profiles.
+
+.. figure:: tigrfam_assembled_orfs/faeces_correlations.png
+    :figwidth: 50%
+    :alt: Correlation matrix for faeces samples of reads mapped to assembled ORFs
+
+    Correlation matrix for faeces samples of reads mapped to assembled ORFs.
 
 
 Discussion

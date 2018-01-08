@@ -4,7 +4,7 @@ Estimation of minimum metagenomic sequencing depth
 This report represents a draft summary of the outcomes of estimating the
 required sequencing depth for different types of shotgun metagenome samples.
 
-:Authors: Fredrik Boulund, <fredrik.boulund@ki.se>, Luisa Hugerth, <luisa.hugerth@ki.se>
+:Authors: Fredrik Boulund, <fredrik.boulund@ki.se>, Luisa Hugerth, <luisa.warchavchik.hugerth@ki.se>
 :Date: 2017-12-19
 
 
@@ -30,13 +30,16 @@ All code related to this endeavour is located in our `Github repository`_.
 
 Simulated sample type compositions
 ----------------------------------
-The microbial composition of four different samples types was simulated. The
-basis of the metagenome simulation was a handmade microbial community,
-represented by whole genome sequences. To produce a somewhat realistic
-situation, some whole genome sequences were present in multiple copies, to
-simulate a relatively larger presence of those specific species. The microbial
+The microbial composition of four different samples types was simulated. The microbial
 composition profile of each sample type was designed based on previous 16S
-results of similar samples.
+results of similar samples. 10-50 samples of each type were summed up to create a 
+"metassample" of species, genera and higher order clades characteristic of each 
+sample type, associated to their total counts. Genomes in these proportions were then
+extracted from the RefSeq database, while adjusting the total number of genomes included
+per sample to a realistic value. This means that rarely occuring genomes were included 
+or not at random, which reflects real ecological stochastic filtering. In the case of 
+the vaginal swab, a single genome from *Candida albicans* was added corresponding to 
+10% of cells in the sample.
 
 .. TODO: more text needed here?
 
@@ -140,13 +143,13 @@ methods.
     :figwidth: 50%
     :alt: Centrifuge unclassified reads.
 
-    Centrifuge performs well on all sample types except vagina.
+    Centrifuge performs well on all sample types except vagina (possibly due to the presence of yeast).
 
 .. figure:: taxonomy_plots/Kaiju_unclassified_reads.png
     :figwidth: 50%
     :alt: Kaiju unclassified reads.
 
-    Kaiju performs well on all samples types except vagina.
+    Kaiju performs well on all samples types except vagina (possibly due to the presence of yeast).
 
 .. figure:: taxonomy_plots/MetaPhlAn2_unclassified_reads.png
     :figwidth: 50%
@@ -157,8 +160,8 @@ methods.
     of unclassified reads is much higher than Centrifuge or Kaiju.
 
 A basic PCA on the abundance profiles show separation between the sample types
-at all sequencing depths, except for MetaPhlAn2 that appears to produce
-profiles that are more similar to each other, especially for faeces, saliva,
+at all sequencing depths for Centrifuge and Kaiju. MetaPhlAn2 that appears to produce
+profiles that are less clearly separated, especially for faeces, saliva,
 and biopsy samples.
 
 .. figure:: taxonomy_plots/Centrifuge_PCA_species.png
@@ -228,7 +231,7 @@ Identifying TIGRFAMs directly from read data
     :figwidth: 75%
     :alt: Boxplots of biopsy samples.
 
-    Boxplots of biopsy sample type.
+    Boxplots of biopsy sample differences.
 
 
 Assembled and reads mapped back to ORFs
@@ -269,11 +272,11 @@ data.
     +=============+============================+============================+============================+
     | Biopsy      |                       1-3% |                    50-100M |                         1G |
     +-------------+----------------------------+----------------------------+----------------------------+
-    | Faecal      |                       ?? % |                        ??M |                         ?M |
+    | Faecal      |                       >90% |                    500K-1M |                        10M |
     +-------------+----------------------------+----------------------------+----------------------------+
-    | Saliva      |                       ?? % |                        ??M |                         ?M |
+    | Saliva      |                       >90% |                    500K-1M |                        10M |
     +-------------+----------------------------+----------------------------+----------------------------+
-    | Vaginal     |                       ?? % |                        ??M |                         ?M |
+    | Vaginal     |                     50-90% |                    500K-2M |                     10-20M |
     +-------------+----------------------------+----------------------------+----------------------------+
      
 

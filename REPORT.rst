@@ -47,15 +47,16 @@ cells in the sample.
 
 Simulated metagenome sequencing data
 ------------------------------------
-First, we simulated large 50 million read metagenomes based on the metasamples
+First, we simulated large 50 million read metagenomes based on the "metasamples"
 we produced earlier using `BBMap`_'s ``randomreads.sh`` with settings
 ``paired=true``, ``length=125``. Note that we did not use the ``metagenome``
 feature of ``randomreads.sh`` due to our metasample genome files already
 contain the expected proportion of all genomes already contain the expected
 proportions of all genomes. The error profile of the reads was automatically
-created by ``randomread.sh`` and typic Illumina substitution errors were also
-automatically added. 
-Then, smaller metagenome sequencing samples were simulated using `BBMap`_'s
+created by ``randomreads.sh`` and typic Illumina substitution errors were also
+automatically added via the default settings of ``randomreads.sh``. 
+
+Then, smaller metagenome sequencing samples were created using `BBMap`_'s
 ``reformat.sh``, using ``samplereadstarget=N`` with
 ``N={10000000,1000000,100000,10000}``, to produce simulated paired-end
 metagenome sequences at several sequencing depths. Each "reference
@@ -128,14 +129,38 @@ TIGRFAMs in the reference (meta)genomes.
 
 Results
 =======
-Overall, we produced about 36 GiB of gzipped FASTQ data, across three
-replicates for each of the four samples types::
+The basic statistics of the primary metasamples is summarized in the general
+stats table below.
+
+.. _general stats table:
+.. table:: General statistics of the produced "samples". Statistics computed by summarizing FastQC output with MultiQC.
+    :widths: auto
+    :align: center
+
+    +-------------+--------+--------+--------+
+    |Sample Name  | % Dups | % GC   | M Seqs |
+    +=============+========+========+========+
+    |biopsy_50M_1 |   8.7% |  47%   |  50.0  |
+    |biopsy_50M_2 |   8.7% |  47%   |  50.0  |
+    |faeces_50M_1 |  12.7% |  48%   |  50.0  |
+    |faeces_50M_2 |  12.8% |  48%   |  50.0  |
+    |saliva_50M_1 |  10.6% |  43%   |  50.0  |
+    |saliva_50M_2 |  10.7% |  43%   |  50.0  |
+    |vag_50M_1    |  18.4% |  38%   |  50.0  |
+    |vag_50M_2    |  18.5% |  38%   |  50.0  |
+    +-------------+--------+--------+--------+
+
+
+Overall, to create the smaller samples from the primary metasamples we produced
+about 36 GiB of gzipped FASTQ data, across three replicates for each of the
+four samples types::
 
     Sample types: Biopsies, Faeces, Saliva, Vagina
     Sequencing depths: 10M, 1M, 100k, 10k
     Replicates: 3
 
-This produced 48 "samples" in total.
+This produced 48 simulated shotgun metagenome samples in total.
+
 
 Taxonomic profile
 -----------------
@@ -143,7 +168,7 @@ Taxonomic profile
 The taxonomic profiles can be assess in multiple ways. First, we present
 taxonomic composition profiles using Krona plots.
 
-.. Here I want to put a few figures showing Krona plots.
+.. TODO: Here I want to put a few figures showing Krona plots.
    You need to help me make them look good Luisa :).
 
 The proportion of unclassified reads shows a similar pattern between the
@@ -169,10 +194,10 @@ methods.
     short reference genes it uses, which is why the everage proportion
     of unclassified reads is much higher than Centrifuge or Kaiju.
 
-A basic PCA on the abundance profiles show separation between the sample types
-at all sequencing depths for Centrifuge and Kaiju. MetaPhlAn2 that appears to produce
-profiles that are less clearly separated, especially for faeces, saliva,
-and biopsy samples.
+A PCA on the abundance profiles show separation between the sample types at all
+sequencing depths for Centrifuge and Kaiju. MetaPhlAn2 that appears to produce
+profiles that are less clearly separated, especially for faeces, saliva, and
+biopsy samples.
 
 .. figure:: taxonomy_plots/Centrifuge_PCA_species.png
     :figwidth: 50%
@@ -280,29 +305,27 @@ Required sequencing depths for different sample types
 Here we summarize the minimum required sequencing depths for different sample
 types, under the assumption that the expected bacterial content represents the
 actual proportion of reads from the target community in the final sequencing
-data.
+data. Our guesstimates are listed in the table below. 
 
-.. TODO: Table is incomplete! 
 .. table:: Estimated minimum required sequencing depths for different sample types.
     :widths: auto
     :align: center
 
-    +-------------+----------------------------+----------------------------+----------------------------+
-    | Sample type | Expected bacterial content | Minimum seq depth Taxonomy | Minimum seq depth Function |
-    +=============+============================+============================+============================+
-    | Biopsy      |                       1-3% |                    50-100M |                         1G |
-    +-------------+----------------------------+----------------------------+----------------------------+
-    | Faecal      |                       >90% |                    500K-1M |                        10M |
-    +-------------+----------------------------+----------------------------+----------------------------+
-    | Saliva      |                       >90% |                    500K-1M |                        10M |
-    +-------------+----------------------------+----------------------------+----------------------------+
-    | Vaginal     |                     50-90% |                    500K-2M |                     10-20M |
-    +-------------+----------------------------+----------------------------+----------------------------+
-     
+    +-------------+-------------------------+----------------------------+----------------------------+
+    | Sample type | Expected bacterial load | Minimum seq depth Taxonomy | Minimum seq depth Function |
+    +=============+=========================+============================+============================+
+    | Biopsy      |                    1-3% |                    50-100M |                         1G |
+    +-------------+-------------------------+----------------------------+----------------------------+
+    | Faecal      |                    >90% |                    500K-1M |                        10M |
+    +-------------+-------------------------+----------------------------+----------------------------+
+    | Saliva      |                    >90% |                    500K-1M |                        10M |
+    +-------------+-------------------------+----------------------------+----------------------------+
+    | Vaginal     |                  50-90% |                    500K-2M |                     10-20M |
+    +-------------+-------------------------+----------------------------+----------------------------+
 
 Discussion
 ==========
-Based on Krona plots, it seems a fairly good representation of the original
+Based on Krona plots, it seems a decent representation of the original
 community is achieved even at fairly low sequencing depths.
 Kaiju ...
 MetaPhlAn2 ...

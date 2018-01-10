@@ -30,29 +30,39 @@ All code related to this endeavour is located in our `Github repository`_.
 
 Simulated sample type compositions
 ----------------------------------
-The microbial composition of four different samples types was simulated. The microbial
-composition profile of each sample type was designed based on previous 16S
-results of similar samples. 10-50 samples of each type were summed up to create a 
-"metassample" of species, genera and higher order clades characteristic of each 
-sample type, associated to their total counts. Genomes in these proportions were then
-extracted from the RefSeq database, while adjusting the total number of genomes included
-per sample to a realistic value. This means that rarely occuring genomes were included 
-or not at random, which reflects real ecological stochastic filtering. In the case of 
-the vaginal swab, a single genome from *Candida albicans* was added corresponding to 
-10% of cells in the sample.
+The microbial composition of four different samples types was simulated. The
+microbial composition profile of each sample type was designed based on
+previous 16S results of similar samples. 10-50 samples of each type were summed
+up to create a "metasample" of species, genera and higher order clades
+characteristic of each sample type, associated to their total counts. Genomes
+were then extracted from the RefSeq database in these proportions, while
+adjusting the total number of genomes included per sample to a realistic value.
+This means that rarely occuring genomes were included or not at random, which
+reflects real ecological stochastic filtering. In the case of the vaginal swab,
+a single genome from *Candida albicans* was added, corresponding to 10% of
+cells in the sample.
 
 .. TODO: more text needed here?
 
 
 Simulated metagenome sequencing data
 ------------------------------------
-Metagenome sequencing data was simulated using `BBMap`_'s ``reformat.sh``,
-using ``samplereadstarget=N`` with ``N={10000000,1000000,100000,10000}``, to
-produce simulated paired-end metagenome sequences, with somewhat realistic
-error profiles. Each "reference metagenome" was randomly sampled three times to
-produce three technical replicates of each sample type. The code for the
-metagenome simulation is available in the Nextflow workflow file
-``simulate_metagenomes.nf``, in our `Github repository`_.
+First, we simulated large 50 million read metagenomes based on the metasamples
+we produced earlier using `BBMap`_'s ``randomreads.sh`` with settings
+``paired=true``, ``length=125``. Note that we did not use the ``metagenome``
+feature of ``randomreads.sh`` due to our metasample genome files already
+contain the expected proportion of all genomes already contain the expected
+proportions of all genomes. The error profile of the reads was automatically
+created by ``randomread.sh`` and typic Illumina substitution errors were also
+automatically added. 
+Then, smaller metagenome sequencing samples were simulated using `BBMap`_'s
+``reformat.sh``, using ``samplereadstarget=N`` with
+``N={10000000,1000000,100000,10000}``, to produce simulated paired-end
+metagenome sequences at several sequencing depths. Each "reference
+metagenome" was randomly sampled three times to produce three technical
+replicates of each sample type. The code for the metagenome simulation is
+available in the Nextflow workflow file ``simulate_metagenomes.nf``, in our
+`Github repository`_.
 
 .. _BBMap: http://seqanswers.com/forums/showthread.php?t=41057
 
@@ -254,6 +264,16 @@ predicted and expected TIGRFAM profiles.
 
     Correlation matrix for faeces samples of reads mapped to assembled ORFs.
 
+The average error in estimated profile compared to true functional profile goes down with increasing
+sequencing depth regardless of method, but the average difference and standard deviation 
+looks best for high depth samples that are assembled. For read 
+
+.. figure:: tigrfam_assembled_orfs/comparison_raw_reads_assembled_orfs.png
+    :figwidth: 75%
+    :alt: Comparison of average errors 
+
+    Comparison of average absolute difference in functional profiles produced
+    by annotating raw reads versus annotating ORFs from assemblies. 
 
 Required sequencing depths for different sample types
 -----------------------------------------------------
@@ -347,5 +367,8 @@ For functional profiling, it is evident from our data that higher sequencing
 depth leads to a better reproduction of the actual functional profile. However,
 increasing read depth also increases the likelihood of overpredicting the
 presence of TIGRFAMs, which is an important thing to consider if making an
-analysis that depends on the relative abundances of identified TIGRFAMs.
+analysis that depends on the relative abundances of identified TIGRFAMs.  All
+in all, if you have a low coverage metagenome sample, our results indicate that
+it is better to try to annotate raw reads directly, rather than trying to
+assemble and identify ORFs. 
 
